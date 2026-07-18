@@ -1,6 +1,8 @@
 import crypto from 'node:crypto';
 import { z } from 'zod';
 
+import { ZenClientError } from '../client/http.js';
+
 const AMOUNT_PATTERN = /^\d+(\.\d{1,2})?$/;
 
 // Enforce positivity AND at-most-two-decimals on BOTH branches: the string
@@ -39,11 +41,33 @@ export function deriveIdempotencyKey(
 }
 
 export function errorResult(error: unknown) {
-  const message = error instanceof Error ? error.message : 'Unknown error';
+  let message = error instanceof Error ? error.message : 'Unknown error';
+  // Surface the HTTP status for API failures — it makes 401 (bad key) vs 422
+  // (bad payload) immediately distinguishable for the caller. Secrets are
+  // never included in ZenClientError messages.
+  if (error instanceof ZenClientError && error.status !== undefined && !message.includes(`HTTP ${error.status}`)) {
+    message = `HTTP ${error.status}: ${message}`;
+  }
   return {
     content: [{ type: 'text' as const, text: `Error: ${message}` }],
     isError: true,
   };
+}
+
+/**
+ * ZEN response shapes are docs-derived and unverified: list endpoints may
+ * return a bare array or an envelope object (e.g. { items: [...] }). Count
+ * defensively instead of assuming `.length` exists.
+ */
+export function countItems(data: unknown): number | undefined {
+  if (Array.isArray(data)) return data.length;
+  if (data && typeof data === 'object') {
+    const record = data as Record<string, unknown>;
+    for (const key of ['items', 'data', 'results', 'elements']) {
+      if (Array.isArray(record[key])) return (record[key] as unknown[]).length;
+    }
+  }
+  return undefined;
 }
 
 export function successResult(text: string, data: unknown) {

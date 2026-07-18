@@ -7,6 +7,7 @@
   "bin": { "zen-mcp": "dist/index.js" },
   "main": "dist/index.js",
   "files": ["dist", "README.md", "LICENSE"],
+  "publishConfig": { "access": "public" },
   "engines": { "node": ">=18" },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --clean",

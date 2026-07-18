@@ -27,4 +27,14 @@ describe('loadConfig', () => {
     expect(loadConfig({ ZEN_HASH_ALG: 'sha512' }).hashAlg).toBe('sha512');
     expect(() => loadConfig({ ZEN_HASH_ALG: 'md5' })).toThrow(ZenConfigError);
   });
+
+  it('rejects a mistyped ZEN_ENV instead of silently using sandbox', () => {
+    expect(() => loadConfig({ ZEN_ENV: 'prod' })).toThrow(ZenConfigError);
+    expect(() => loadConfig({ ZEN_ENV: 'live' })).toThrow(ZenConfigError);
+    expect(loadConfig({ ZEN_ENV: 'sandbox' }).baseUrl).toBe('https://api.zen-test.com');
+  });
+
+  it('rejects an invalid ZEN_BASE_URL override', () => {
+    expect(() => loadConfig({ ZEN_BASE_URL: 'not a url' })).toThrow(ZenConfigError);
+  });
 });

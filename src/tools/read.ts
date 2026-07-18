@@ -5,7 +5,7 @@ import type { ZenConfig } from '../config.js';
 import { endpoints } from '../client/endpoints.js';
 import type { ZenClient } from '../client/http.js';
 import { CURRENCIES } from './currencies.js';
-import { errorResult, merchantTransactionIdSchema, successResult } from './shared.js';
+import { countItems, errorResult, merchantTransactionIdSchema, successResult } from './shared.js';
 
 const readAnnotations = { readOnlyHint: true, openWorldHint: true } as const;
 
@@ -20,8 +20,12 @@ export function register(server: McpServer, client: ZenClient, _cfg: ZenConfig):
     },
     async () => {
       try {
-        const methods = await client.request<unknown[]>('GET', endpoints.paymentMethods());
-        return successResult(`Found ${methods.length} payment method(s).`, methods);
+        const methods = await client.request<unknown>('GET', endpoints.paymentMethods());
+        const count = countItems(methods);
+        return successResult(
+          count !== undefined ? `Found ${count} payment method(s).` : 'Payment methods retrieved.',
+          methods,
+        );
       } catch (error) {
         return errorResult(error);
       }
@@ -69,8 +73,12 @@ export function register(server: McpServer, client: ZenClient, _cfg: ZenConfig):
     },
     async (query) => {
       try {
-        const links = await client.request<unknown[]>('GET', endpoints.listPaymentLinks(), { query });
-        return successResult(`Found ${links.length} payment link(s).`, links);
+        const links = await client.request<unknown>('GET', endpoints.listPaymentLinks(), { query });
+        const count = countItems(links);
+        return successResult(
+          count !== undefined ? `Found ${count} payment link(s).` : 'Payment links retrieved.',
+          links,
+        );
       } catch (error) {
         return errorResult(error);
       }

@@ -31,12 +31,27 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): ZenConfig {
     );
   }
 
+  // Fail loudly on a mistyped environment: silently falling back to sandbox
+  // (or worse, the operator believing they are on sandbox) is dangerous for a
+  // payments integration.
+  if (env.ZEN_ENV !== undefined && env.ZEN_ENV !== 'production' && env.ZEN_ENV !== 'sandbox') {
+    throw new ZenConfigError(
+      `Invalid ZEN_ENV "${env.ZEN_ENV}". Expected "production" or "sandbox".`,
+    );
+  }
+
   const defaultBaseUrl =
     env.ZEN_ENV === 'production' ? 'https://api.zen.com' : 'https://api.zen-test.com';
   const baseUrl = (env.ZEN_BASE_URL ?? defaultBaseUrl).replace(/\/+$/, '');
 
   if (!baseUrl) {
     throw new ZenConfigError('ZEN_BASE_URL must not be empty.');
+  }
+  try {
+    // Reject garbage overrides early instead of failing on the first request.
+    void new URL(baseUrl);
+  } catch {
+    throw new ZenConfigError(`ZEN_BASE_URL is not a valid URL: "${baseUrl}".`);
   }
 
   return {
