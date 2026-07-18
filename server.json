@@ -1,0 +1,19 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.krystiangw/zen",
+  "description": "Unofficial MCP server for the ZEN.com Payment Gateway: payment links, transactions, refunds, payouts, reporting.",
+  "repository": { "url": "https://github.com/krystiangw/zen-mcp", "source": "github" },
+  "version": "0.1.0",
+  "packages": [{
+    "registryType": "npm",
+    "identifier": "@krystiangw/zen-mcp",
+    "version": "0.1.0",
+    "transport": { "type": "stdio" },
+    "environmentVariables": [
+      { "name": "ZEN_API_KEY", "description": "ZEN Terminal API Key (Authorization header)", "isRequired": true, "isSecret": true, "format": "string" },
+      { "name": "ZEN_PAYWALL_SECRET", "description": "ZEN paywall secret for request signing (required for write ops)", "isRequired": false, "isSecret": true, "format": "string" },
+      { "name": "ZEN_IPN_SECRET", "description": "ZEN IPN secret for webhook verification", "isRequired": false, "isSecret": true, "format": "string" },
+      { "name": "ZEN_ENV", "description": "sandbox (default) or production", "isRequired": false, "format": "string" }
+    ]
+  }]
+}
