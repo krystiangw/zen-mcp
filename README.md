@@ -69,6 +69,8 @@ For Claude Desktop, add this entry to its MCP configuration:
 
 In the ZEN merchant panel, go to **my.zen.com → Shop settings → Terminal** to find the Terminal API Key. Use sandbox first; the default API host is `api.zen-test.com`, although sandbox availability and onboarding requirements should be confirmed with ZEN.
 
+No merchant account yet? You can [open a ZEN business account](https://get.zen.com/business/809eaf9d-aca4-42ed-8e4c-f645b0fe30bd?referralCode=10W3058V95&dealid=1). That is a referral link: it credits the author of this project if you sign up through it, and costs you nothing. Every other link in this README is a plain one.
+
 ## Tools
 
 | Name | Type | Description |
