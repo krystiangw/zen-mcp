@@ -148,8 +148,9 @@
 }</pre>
 
         <h3>Try it without an account</h3>
-        <p>Mock mode answers every tool with deterministic canned data and never touches the network, so you can see the whole surface before signing up for anything.</p>
-        <pre>ZEN_MOCK=1 npx -y @krystiangw/zen-mcp</pre>
+        <p>Mock mode answers every API-backed tool with deterministic canned data and never touches the network, so you can walk the whole surface before signing up for anything.</p>
+        <pre>ZEN_MOCK=1 ZEN_IPN_SECRET=demo npx -y @krystiangw/zen-mcp</pre>
+        <p>The dummy IPN secret is there because <code>verify_webhook_signature</code> does real cryptography rather than calling the API, so it needs a secret even in mock mode. Any value works for a demo.</p>
       </div>
       <div>
         <h3>Where the key comes from</h3>

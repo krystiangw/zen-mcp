@@ -102,15 +102,17 @@ In the ZEN merchant panel, go to **my.zen.com → Shop settings → Terminal** t
 Run the server with deterministic canned API responses:
 
 ```sh
-ZEN_MOCK=1 npx -y @krystiangw/zen-mcp
+ZEN_MOCK=1 ZEN_IPN_SECRET=demo npx -y @krystiangw/zen-mcp
 ```
+
+`verify_webhook_signature` does real cryptography instead of calling the API, so it needs a secret even in mock mode. Any value works for a demo.
 
 From a development checkout:
 
 ```sh
 npm install
 npm run build
-ZEN_MOCK=1 npm run inspect
+ZEN_MOCK=1 ZEN_IPN_SECRET=demo npm run inspect
 ```
 
 ## Development
@@ -122,7 +124,7 @@ npm install
 npm run typecheck
 npm run build
 npm test
-ZEN_MOCK=1 npm run inspect
+ZEN_MOCK=1 ZEN_IPN_SECRET=demo npm run inspect
 ```
 
 ## Roadmap
