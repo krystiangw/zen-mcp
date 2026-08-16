@@ -5,6 +5,8 @@
 
 An MCP server that lets AI assistants work with the ZEN.com Payment Gateway: hosted payment links, transaction lookup, refunds, payouts, and reporting.
 
+[Project page](https://krystiangw.github.io/zen-mcp/)
+
 > **Unofficial.** This project is not affiliated with, endorsed by, or maintained by ZEN.com.
 
 ## What it does

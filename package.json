@@ -21,7 +21,7 @@
   "license": "MIT",
   "author": "Krystian Gwizdała",
   "repository": { "type": "git", "url": "git+https://github.com/krystiangw/zen-mcp.git" },
-  "homepage": "https://github.com/krystiangw/zen-mcp#readme",
+  "homepage": "https://krystiangw.github.io/zen-mcp/",
   "bugs": { "url": "https://github.com/krystiangw/zen-mcp/issues" },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",

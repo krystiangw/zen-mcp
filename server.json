@@ -4,6 +4,7 @@
   "description": "Unofficial MCP server for the ZEN.com Payment Gateway: payment links, transactions, refunds, payouts, reporting.",
   "repository": { "url": "https://github.com/krystiangw/zen-mcp", "source": "github" },
   "version": "0.1.0",
+  "websiteUrl": "https://krystiangw.github.io/zen-mcp/",
   "packages": [{
     "registryType": "npm",
     "identifier": "@krystiangw/zen-mcp",
