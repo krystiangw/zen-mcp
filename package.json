@@ -1,14 +1,24 @@
 {
   "name": "@krystiangw/zen-mcp",
   "mcpName": "io.github.krystiangw/zen",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Unofficial MCP server for the ZEN.com Payment Gateway (payment links, transactions, refunds, payouts, reporting).",
   "type": "module",
-  "bin": { "zen-mcp": "dist/index.js" },
+  "bin": {
+    "zen-mcp": "dist/index.js"
+  },
   "main": "dist/index.js",
-  "files": ["dist", "README.md", "LICENSE"],
-  "publishConfig": { "access": "public" },
-  "engines": { "node": ">=18" },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --clean",
     "dev": "tsx src/index.ts",
@@ -17,12 +27,29 @@
     "inspect": "npx @modelcontextprotocol/inspector node dist/index.js",
     "prepublishOnly": "npm run build"
   },
-  "keywords": ["mcp", "model-context-protocol", "modelcontextprotocol", "claude", "llm", "ai", "fintech", "payments", "zen", "zen.com", "payment-gateway"],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "modelcontextprotocol",
+    "claude",
+    "llm",
+    "ai",
+    "fintech",
+    "payments",
+    "zen",
+    "zen.com",
+    "payment-gateway"
+  ],
   "license": "MIT",
   "author": "Krystian Gwizdała",
-  "repository": { "type": "git", "url": "git+https://github.com/krystiangw/zen-mcp.git" },
-  "homepage": "https://krystiangw.github.io/zen-mcp/",
-  "bugs": { "url": "https://github.com/krystiangw/zen-mcp/issues" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krystiangw/zen-mcp.git"
+  },
+  "homepage": "https://zenmcp.github.io/",
+  "bugs": {
+    "url": "https://github.com/krystiangw/zen-mcp/issues"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
     "zod": "^3.25.0"

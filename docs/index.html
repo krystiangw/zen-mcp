@@ -3,265 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="google-site-verification" content="AivhVutlgdzwPhOT26aWe5RxRWJp5YqixFXJ6ie48nM">
-<title>ZEN.com Payment Gateway MCP server (unofficial) - zen-mcp</title>
-<meta name="description" content="An MCP server that lets AI assistants create payment links, look up transactions, issue refunds and pull reports on the ZEN.com Payment Gateway. Unofficial, MIT licensed, with an offline mock mode.">
-<link rel="canonical" href="https://krystiangw.github.io/zen-mcp/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="ZEN MCP - unofficial MCP server for the ZEN.com Payment Gateway">
-<meta property="og:description" content="14 tools for payment links, transactions, refunds and payouts. Runs over stdio, secrets stay in environment variables, offline mock mode included.">
-<meta property="og:url" content="https://krystiangw.github.io/zen-mcp/">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ZEN MCP - unofficial MCP server for the ZEN.com Payment Gateway">
-<meta name="twitter:description" content="14 tools for payment links, transactions, refunds and payouts. Runs over stdio, offline mock mode included.">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "zen-mcp",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Node.js 18+",
-  "description": "Unofficial MCP server for the ZEN.com Payment Gateway. Lets AI assistants create hosted payment links, look up transactions, issue refunds, send payouts and pull reconciliation reports.",
-  "url": "https://krystiangw.github.io/zen-mcp/",
-  "downloadUrl": "https://www.npmjs.com/package/@krystiangw/zen-mcp",
-  "codeRepository": "https://github.com/krystiangw/zen-mcp",
-  "programmingLanguage": "TypeScript",
-  "softwareVersion": "0.1.0",
-  "license": "https://opensource.org/licenses/MIT",
-  "isAccessibleForFree": true,
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "author": { "@type": "Person", "name": "Krystian Gwizdała" },
-  "keywords": "MCP, Model Context Protocol, ZEN.com, payment gateway, payment links, refunds, payouts, fintech"
-}
-</script>
+<title>zen-mcp has moved to zenmcp.github.io</title>
+<link rel="canonical" href="https://zenmcp.github.io/">
+<meta http-equiv="refresh" content="0; url=https://zenmcp.github.io/">
+<meta name="description" content="The zen-mcp project page has moved to https://zenmcp.github.io/">
 <style>
-  :root {
-    --bg: #fbfaf8;
-    --panel: #ffffff;
-    --ink: #1a1815;
-    --muted: #6b665e;
-    --line: #ddd8d0;
-    --line-strong: #1a1815;
-    --accent: #a35200;
-    --danger: #8f2417;
-    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #12110f;
-      --panel: #1a1815;
-      --ink: #ebe7e0;
-      --muted: #9a938a;
-      --line: #322e29;
-      --line-strong: #6b665e;
-      --accent: #e08c3c;
-      --danger: #d9705f;
-    }
-  }
-  * { box-sizing: border-box; border-radius: 0; }
-  html { -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 16px;
-    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fbfaf8;
+    color: #1a1815;
+    font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 1.5rem;
   }
-  .wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.5rem; }
-  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
-  a:hover { text-decoration-thickness: 2px; }
-  code, kbd { font-family: var(--mono); font-size: 0.9em; }
-
-  /* Masthead: left aligned, deliberately not a centred hero. */
-  header { border-bottom: 1px solid var(--line-strong); }
-  .masthead { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 3rem; padding: 4rem 0 3rem; }
-  @media (max-width: 800px) { .masthead { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 0 2rem; } }
-  .eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0 0 1rem; }
-  h1 { font-family: var(--mono); font-size: clamp(2rem, 6vw, 3.25rem); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 1.25rem; font-weight: 600; }
-  .lede { font-size: 1.15rem; margin: 0 0 1.5rem; max-width: 34em; }
-  .meta { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 0 1.5rem; }
-
-  .notice { border: 1px solid var(--accent); border-left-width: 4px; padding: 1rem 1.25rem; background: var(--panel); }
-  .notice p { margin: 0 0 0.75rem; font-size: 0.925rem; }
-  .notice p:last-child { margin: 0; }
-  .notice strong { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.5rem; }
-
-  section { padding: 3.5rem 0; border-bottom: 1px solid var(--line); }
-  section:last-of-type { border-bottom: 0; }
-  h2 { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 0 0 1.5rem; font-weight: 600; }
-  h3 { font-family: var(--mono); font-size: 1rem; margin: 2rem 0 0.75rem; font-weight: 600; }
-  h3:first-of-type { margin-top: 0; }
-  p { max-width: 42em; }
-
-  pre { font-family: var(--mono); font-size: 0.85rem; line-height: 1.7; background: var(--panel); border: 1px solid var(--line); padding: 1rem 1.25rem; overflow-x: auto; margin: 0 0 1rem; }
-  pre .c { color: var(--muted); }
-
-  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-  .scroll { overflow-x: auto; }
-  th, td { text-align: left; padding: 0.6rem 1rem 0.6rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
-  th { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; border-bottom-color: var(--line-strong); white-space: nowrap; }
-  td:first-child { font-family: var(--mono); white-space: nowrap; padding-right: 2rem; }
-  .tag { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
-  .tag-read { color: var(--muted); }
-  .tag-write { color: var(--accent); }
-  .tag-danger { color: var(--danger); }
-
-  /* Uneven split: the explanation carries more weight than the list beside it. */
-  .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 3fr); gap: 3rem; }
-  @media (max-width: 800px) { .split { grid-template-columns: 1fr; gap: 2rem; } }
-
-  ul.plain { list-style: none; margin: 0; padding: 0; }
-  ul.plain li { padding: 0.5rem 0; border-bottom: 1px solid var(--line); font-size: 0.925rem; }
-  ul.plain li:last-child { border-bottom: 0; }
-
-  footer { padding: 3rem 0 4rem; font-family: var(--mono); font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--line-strong); }
-  footer a { color: var(--ink); }
-  .links { display: flex; flex-wrap: wrap; gap: 0 2rem; margin-bottom: 1.5rem; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #12110f; color: #ebe7e0; }
+  }
+  a { color: #a35200; }
+  @media (prefers-color-scheme: dark) { a { color: #e08c3c; } }
+  div { max-width: 34em; }
 </style>
 </head>
 <body>
-
-<header>
-  <div class="wrap masthead">
-    <div>
-      <p class="eyebrow">Model Context Protocol server</p>
-      <h1>zen-mcp</h1>
-      <p class="lede">Lets an AI assistant work with the ZEN.com Payment Gateway: create hosted payment links, look up transactions, issue refunds, send payouts and pull reconciliation reports.</p>
-      <p class="meta">
-        <span>MIT licensed</span>
-        <span>Node 18+</span>
-        <span>stdio transport</span>
-        <span>14 tools</span>
-      </p>
-    </div>
-    <div class="notice">
-      <strong>Unofficial project</strong>
-      <p>Not affiliated with, endorsed by, or maintained by ZEN.com. The name refers to the API it talks to, nothing more.</p>
-      <p>It was built from public documentation without access to a live merchant account. Verify endpoint versions, field shapes and signing behaviour against ZEN's current OpenAPI or Postman collection before you point it at real money.</p>
-    </div>
+  <div>
+    <p>The zen-mcp project page has moved to <a href="https://zenmcp.github.io/">zenmcp.github.io</a>.</p>
+    <p>If your browser does not redirect, follow the link above.</p>
   </div>
-</header>
-
-<div class="wrap">
-
-  <section>
-    <h2>Install</h2>
-    <div class="split">
-      <div>
-        <h3>Claude Code</h3>
-        <pre>claude mcp add zen \
-  --env ZEN_API_KEY=your_terminal_api_key \
-  -- npx -y @krystiangw/zen-mcp</pre>
-
-        <h3>Claude Desktop</h3>
-        <pre>{
-  "mcpServers": {
-    "zen": {
-      "command": "npx",
-      "args": ["-y", "@krystiangw/zen-mcp"],
-      "env": {
-        "ZEN_API_KEY": "your_terminal_api_key",
-        "ZEN_PAYWALL_SECRET": "your_paywall_secret",
-        "ZEN_IPN_SECRET": "your_ipn_secret",
-        "ZEN_ENV": "sandbox"
-      }
-    }
-  }
-}</pre>
-
-        <h3>Try it without an account</h3>
-        <p>Mock mode answers every API-backed tool with deterministic canned data and never touches the network, so you can walk the whole surface before signing up for anything.</p>
-        <pre>ZEN_MOCK=1 ZEN_IPN_SECRET=demo npx -y @krystiangw/zen-mcp</pre>
-        <p>The dummy IPN secret is there because <code>verify_webhook_signature</code> does real cryptography rather than calling the API, so it needs a secret even in mock mode. Any value works for a demo.</p>
-      </div>
-      <div>
-        <h3>Where the key comes from</h3>
-        <p>In the ZEN merchant panel: <span style="font-family:var(--mono)">my.zen.com</span> &rarr; Shop settings &rarr; Terminal.</p>
-        <p>Start on sandbox. The default host is <span style="font-family:var(--mono)">api.zen-test.com</span>, though sandbox availability and onboarding requirements are worth confirming with ZEN directly.</p>
-        <p>No merchant account yet? You can <a href="https://get.zen.com/business/809eaf9d-aca4-42ed-8e4c-f645b0fe30bd?referralCode=10W3058V95&amp;dealid=1" rel="sponsored noopener">open a ZEN business account</a>. That is a referral link: it credits the author of this project if you sign up through it, and costs you nothing. Every other link here is a plain one.</p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2>Tools</h2>
-    <div class="scroll">
-      <table>
-        <thead>
-          <tr><th>Name</th><th>Kind</th><th>What it does</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>list_payment_methods</td><td><span class="tag tag-read">read</span></td><td>Payment methods available to the terminal</td></tr>
-          <tr><td>get_transaction</td><td><span class="tag tag-read">read</span></td><td>One transaction, by ZEN id or your own merchant id</td></tr>
-          <tr><td>list_payment_links</td><td><span class="tag tag-read">read</span></td><td>Hosted payment links</td></tr>
-          <tr><td>get_payment_link</td><td><span class="tag tag-read">read</span></td><td>A single hosted payment link</td></tr>
-          <tr><td>get_payout</td><td><span class="tag tag-read">read</span></td><td>One payout, by ZEN id</td></tr>
-          <tr><td>download_report</td><td><span class="tag tag-read">read</span></td><td>Transaction and settlement reports for reconciliation</td></tr>
-          <tr><td>list_supported_currencies</td><td><span class="tag tag-read">read</span></td><td>Documented supported currencies</td></tr>
-          <tr><td>verify_webhook_signature</td><td><span class="tag tag-read">read</span></td><td>Checks an IPN signature locally, no network call</td></tr>
-          <tr><td>create_payment_link</td><td><span class="tag tag-write">write</span></td><td>Hosted checkout link and QR code, no card data involved</td></tr>
-          <tr><td>create_customer</td><td><span class="tag tag-write">write</span></td><td>Customer record, groundwork for recurring payments</td></tr>
-          <tr><td>capture_transaction</td><td><span class="tag tag-danger">destructive</span></td><td>Captures an authorised transaction</td></tr>
-          <tr><td>cancel_transaction</td><td><span class="tag tag-danger">destructive</span></td><td>Cancels a transaction</td></tr>
-          <tr><td>refund_transaction</td><td><span class="tag tag-danger">destructive</span></td><td>Full or partial refund</td></tr>
-          <tr><td>create_payout</td><td><span class="tag tag-danger">destructive</span></td><td>Sends money out. The most sensitive tool here.</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section>
-    <h2>How it handles money</h2>
-    <div class="split">
-      <div>
-        <p>Anything that moves or reverses money carries the destructive hint, so MCP clients can hold it behind a confirmation instead of letting a model fire it off mid-sentence. Read tools are marked read-only and stay that way.</p>
-        <p>Payment acceptance goes through ZEN-hosted links, which means card numbers never pass through this server and there is no PCI surface to inherit. Raw card charges are deliberately left out of the MVP rather than bolted on.</p>
-        <p>Secrets are read from environment variables only. They are never tool arguments, so they cannot end up in a transcript, a log line, or a model's context by accident.</p>
-        <p>The request signing algorithm follows public documentation, but nested-object and array flattening are not fully specified there. That part is isolated in one module, covered by tests, and flagged for verification against the live API.</p>
-      </div>
-      <div>
-        <h3>Configuration</h3>
-        <ul class="plain">
-          <li><code>ZEN_API_KEY</code><br>Terminal API key. Required outside mock mode.</li>
-          <li><code>ZEN_PAYWALL_SECRET</code><br>Signs request bodies. Required for writes.</li>
-          <li><code>ZEN_IPN_SECRET</code><br>Webhook verification only.</li>
-          <li><code>ZEN_ENV</code><br><code>sandbox</code> (default) or <code>production</code>.</li>
-          <li><code>ZEN_BASE_URL</code><br>Overrides the host. Wins over <code>ZEN_ENV</code>.</li>
-          <li><code>ZEN_MOCK</code><br><code>1</code> for offline canned responses.</li>
-          <li><code>ZEN_HASH_ALG</code><br>sha224, sha256 (default), sha384, sha512.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2>Scope</h2>
-    <div class="split">
-      <div>
-        <p>ZEN publishes an official API for the Payment Gateway only. The consumer side, meaning cashback, Reward Zone, personal cards and accounts, has no public API, so it is out of scope here rather than approximated by scraping something fragile.</p>
-        <p>Still on the list: raw card charges once there is a deliberate PCI design behind them, recurring and one-click payments after the tokenisation flow has been verified against a live account, and a remote Streamable HTTP transport with OAuth after the stdio version has proven itself.</p>
-      </div>
-      <div>
-        <h3>Source</h3>
-        <p>TypeScript, validated with Zod, tested with Vitest against an in-memory MCP transport.</p>
-        <p><a href="https://github.com/krystiangw/zen-mcp">Read the code on GitHub</a></p>
-      </div>
-    </div>
-  </section>
-
-</div>
-
-<footer class="wrap">
-  <div class="links">
-    <a href="https://github.com/krystiangw/zen-mcp">GitHub</a>
-    <a href="https://www.npmjs.com/package/@krystiangw/zen-mcp">npm</a>
-    <a href="https://github.com/krystiangw/zen-mcp/issues">Issues</a>
-    <a href="https://modelcontextprotocol.io">About MCP</a>
-  </div>
-  <p>MIT licensed. Built by Krystian Gwizda&#322;a. ZEN and ZEN.com are trademarks of their respective owner and this project is not connected to them.</p>
-</footer>
-
 </body>
 </html>
